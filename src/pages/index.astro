@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LiveFullDaysGrid from '../components/LiveFullDaysGrid.astro';
+import { obtenerFullDaysActivos } from '../services/fullDayService';
+
+// Obtenemos las Escapadas Full Day iniciales (SSG)
+const fullDays = await obtenerFullDaysActivos();
+---
+
+<Layout title="Viajar es Vida — Salidas Full Day">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>Descubrí tu próxima escapada Full Day</h1>
+      <p style="margin-top: 14px; font-size: 1.15rem; opacity: 0.95; max-width: 650px; margin-left: auto; margin-right: auto;">
+        Salidas de un día completo para renovar energías con traslados, coordinación y actividades incluidas.
+      </p>
+    </div>
+  </section>
+
+  <!-- Escapadas Full Day (Sincronizado en tiempo real con Google Sheets) -->
+  <section style="padding: 50px 0 70px 0;">
+    <div class="container">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 15px; margin-bottom: 25px; border-bottom: 2px solid var(--border); padding-bottom: 15px;">
+        <div>
+          <span style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; color: var(--terracota); letter-spacing: 1px; background: var(--crema); padding: 4px 10px; border-radius: 6px;">
+            ⚡ Salidas en el Día • Cupos Limitados
+          </span>
+          <h2 style="font-size: 2rem; font-weight: 800; color: var(--carbon); margin-top: 6px;">
+            🚌 Próximas Salidas Full Day
+          </h2>
+        </div>
+      </div>
+
+      <!-- Grid con actualización en vivo en cada recarga -->
+      <LiveFullDaysGrid initialViajes={fullDays} />
+    </div>
+  </section>
+</Layout>
