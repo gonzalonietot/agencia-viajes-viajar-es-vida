@@ -1,14 +1,15 @@
-name: CI - Build Verification
+name: CI - Verificación de Compilación
 
 on:
   push:
-    branches-ignore: [main]
+    branches: ["**"]
   pull_request:
-    branches: [main]
+    branches: ["**"]
+  workflow_dispatch:
 
 jobs:
   build:
-    name: Build & Validate
+    name: Build & Check Errors
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -22,5 +23,5 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build Astro project
+      - name: Verify Astro Build
         run: npm run build
