@@ -1,0 +1,183 @@
+---
+import type { FullDayViaje } from '../services/fullDayService';
+
+interface Props {
+  viaje: FullDayViaje;
+}
+
+const { viaje } = Astro.props;
+---
+
+<article class="card card-fullday">
+  <!-- Portada del viaje -->
+  <div class="card-img-wrapper">
+    <img 
+      src={viaje.imagenUrl} 
+      alt={`Escapada Full Day a ${viaje.destino}`} 
+      loading="lazy" 
+      referrerpolicy="no-referrer"
+      onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80';"
+    />
+    <span class="card-tag">🚌 Escapada Full Day</span>
+    <span class="card-badge-status">🟢 Cupos Disponibles</span>
+  </div>
+
+  <!-- Contenido de la tarjeta -->
+  <div class="card-body">
+    <!-- Destino -->
+    <h3 class="card-title fullday-title">
+      {viaje.destino}
+    </h3>
+
+    <!-- Fecha destacada -->
+    <div class="fullday-date-badge">
+      <span class="date-icon">📅</span>
+      <div>
+        <small class="date-label">Fecha de Salida</small>
+        <div class="date-val">{viaje.fecha}</div>
+      </div>
+    </div>
+
+    <!-- Servicios incluidos -->
+    <div class="fullday-includes-box">
+      <div class="includes-title">✨ Incluye en el día:</div>
+      <div class="includes-tags">
+        {viaje.incluyeLista && viaje.incluyeLista.length > 0 ? (
+          viaje.incluyeLista.map((item) => (
+            <span class="include-pill">✓ {item}</span>
+          ))
+        ) : (
+          <span class="include-pill">✓ {viaje.incluye}</span>
+        )}
+      </div>
+    </div>
+
+    <!-- Footer con precio -->
+    <div class="card-footer fullday-footer">
+      <div class="price-container">
+        <div class="price-label">Tarifa por persona</div>
+        <div class="price-val fullday-price">{viaje.precio}</div>
+      </div>
+    </div>
+  </div>
+</article>
+
+<style>
+  .card-fullday {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .card-badge-status {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: #166534;
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .fullday-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--carbon);
+    margin-bottom: 12px;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .fullday-date-badge {
+    background: var(--crema);
+    border: 1px solid rgba(203, 91, 8, 0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .date-icon {
+    font-size: 1.4rem;
+  }
+
+  .date-label {
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--terracota-dark);
+    letter-spacing: 0.5px;
+  }
+
+  .date-val {
+    font-size: 0.98rem;
+    font-weight: 800;
+    color: var(--terracota);
+  }
+
+  .fullday-includes-box {
+    margin-bottom: 20px;
+    flex: 1;
+  }
+
+  .includes-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .includes-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .include-pill {
+    background: #f8fafc;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 4px 9px;
+    border-radius: 6px;
+    line-height: 1.3;
+    text-transform: capitalize;
+  }
+
+  .fullday-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .price-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fullday-price {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--terracota);
+    letter-spacing: -0.5px;
+  }
+</style>

@@ -1,0 +1,14 @@
+{
+  "name": "agencia-viajes-astro",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev --port 4321",
+    "start": "ASTRO_TELEMETRY_DISABLED=1 astro dev --port 4321",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview --port 4321"
+  },
+  "dependencies": {
+    "astro": "^4.16.0"
+  }
+}
