@@ -42,6 +42,22 @@ const { initialViajes = [] } = Astro.props;
     return cleanUrl;
   }
 
+  function resolverTipoViaje(tipoRaw: string | undefined): { tipoViaje: string; tagTipoViaje: string } {
+    const raw = (tipoRaw || '').toString().trim();
+    const lower = raw.toLowerCase();
+
+    if (lower === 'viaje' || lower.includes('viaje')) {
+      return { tipoViaje: 'Viaje', tagTipoViaje: '🚌 Viaje' };
+    }
+    if (lower === 'full day' || lower === 'fullday' || lower.includes('full')) {
+      return { tipoViaje: 'Full Day', tagTipoViaje: '🚌 Full Day' };
+    }
+    if (raw.length > 0) {
+      return { tipoViaje: raw, tagTipoViaje: `🚌 ${raw}` };
+    }
+    return { tipoViaje: 'Full Day', tagTipoViaje: '🚌 Full Day' };
+  }
+
   function parsearIncluye(incluye: string | undefined): string[] {
     if (!incluye) return [];
     return incluye
@@ -117,7 +133,17 @@ const { initialViajes = [] } = Astro.props;
       }
 
       grid.innerHTML = activos.map((viaje: any, index: number) => {
-        const destino = (viaje.Destino || '').toString().trim() || `Escapada Full Day #${index + 1}`;
+        const rawTipo =
+          viaje['Tipo de Viaje'] ||
+          viaje['Tipo de viaje'] ||
+          viaje['Tipo De Viaje'] ||
+          viaje['tipo de viaje'] ||
+          viaje['Tipo'] ||
+          viaje['tipo'] ||
+          viaje['TipoViaje'] ||
+          viaje['tipoViaje'];
+        const { tipoViaje, tagTipoViaje } = resolverTipoViaje(rawTipo);
+        const destino = (viaje.Destino || '').toString().trim() || `${tipoViaje} #${index + 1}`;
         const fecha = (viaje.Fecha || '').toString().trim() || 'Próximamente';
         const precio = (viaje.Precio || '').toString().trim() || 'Consultar';
         const incluye = (viaje.Incluye || '').toString().trim() || 'Coordinación y traslados';
@@ -133,12 +159,12 @@ const { initialViajes = [] } = Astro.props;
             <div class="card-img-wrapper">
               <img 
                 src="${imagenUrl}" 
-                alt="Escapada Full Day a ${destino}" 
+                alt="${tipoViaje} a ${destino}" 
                 loading="lazy" 
                 referrerpolicy="no-referrer"
                 onerror="this.onerror=null; this.src='${DEFAULT_IMAGE}';"
               />
-              <span class="card-tag">🚌 Escapada Full Day</span>
+              <span class="card-tag">${tagTipoViaje}</span>
               <span class="card-badge-status">🟢 Cupos Disponibles</span>
             </div>
 
@@ -154,7 +180,7 @@ const { initialViajes = [] } = Astro.props;
               </div>
 
               <div class="fullday-includes-box">
-                <div class="includes-title">✨ Incluye en el día:</div>
+                <div class="includes-title">✨ Incluye:</div>
                 <div class="includes-tags">
                   ${pillsHtml}
                 </div>

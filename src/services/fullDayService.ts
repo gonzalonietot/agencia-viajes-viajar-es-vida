@@ -9,6 +9,10 @@ export interface ViajeSheetRaw {
   Precio?: string;
   Incluye?: string;
   Estado?: string;
+  'Tipo de Viaje'?: string;
+  'Tipo de viaje'?: string;
+  'Tipo De Viaje'?: string;
+  'tipo de viaje'?: string;
   'URL Imagen'?: string;
   [key: string]: any;
 }
@@ -21,6 +25,8 @@ export interface FullDayViaje {
   incluye: string;
   incluyeLista: string[];
   estado: string;
+  tipoViaje: string;
+  tagTipoViaje: string;
   imagenUrl: string;
   whatsappUrl: string;
 }
@@ -59,10 +65,46 @@ export function normalizarImagenGoogleDrive(url?: string): string {
 }
 
 /**
+ * Resuelve el Tipo de Viaje y la tag con emoji correspondiente
+ */
+export function resolverTipoViaje(tipoRaw?: string): { tipoViaje: string; tagTipoViaje: string } {
+  const raw = (tipoRaw || '').toString().trim();
+  const lower = raw.toLowerCase();
+
+  if (lower === 'viaje' || lower.includes('viaje')) {
+    return {
+      tipoViaje: 'Viaje',
+      tagTipoViaje: '🚌 Viaje',
+    };
+  }
+
+  if (lower === 'full day' || lower === 'fullday' || lower.includes('full')) {
+    return {
+      tipoViaje: 'Full Day',
+      tagTipoViaje: '🚌 Full Day',
+    };
+  }
+
+  if (raw.length > 0) {
+    return {
+      tipoViaje: raw,
+      tagTipoViaje: `🚌 ${raw}`,
+    };
+  }
+
+  // Valor por defecto si no viene especificado
+  return {
+    tipoViaje: 'Full Day',
+    tagTipoViaje: '🚌 Full Day',
+  };
+}
+
+/**
  * Genera el enlace directo a WhatsApp con mensaje de reserva prellenado
  */
-export function generarWhatsAppUrl(destino: string, fecha?: string, precio?: string): string {
-  const texto = `¡Hola! Quiero consultar por la Escapada Full Day a "${destino}"${fecha ? ` para la fecha ${fecha}` : ''}${precio ? ` (${precio})` : ''}. ¿Tienen disponibilidad?`;
+export function generarWhatsAppUrl(destino: string, fecha?: string, precio?: string, tipoViaje?: string): string {
+  const tipoLabel = tipoViaje?.toLowerCase().includes('viaje') ? 'el viaje a' : 'el Full Day a';
+  const texto = `¡Hola! Quiero consultar por ${tipoLabel} "${destino}"${fecha ? ` para la fecha ${fecha}` : ''}${precio ? ` (${precio})` : ''}. ¿Tienen disponibilidad?`;
   return `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(texto)}`;
 }
 
@@ -142,7 +184,17 @@ export async function obtenerFullDaysActivos(): Promise<FullDayViaje[]> {
   });
 
   return activos.map((viaje, index) => {
-    const destino = (viaje.Destino || '').toString().trim() || `Escapada Full Day #${index + 1}`;
+    const rawTipo =
+      viaje['Tipo de Viaje'] ||
+      viaje['Tipo de viaje'] ||
+      viaje['Tipo De Viaje'] ||
+      viaje['tipo de viaje'] ||
+      viaje['Tipo'] ||
+      viaje['tipo'] ||
+      viaje['TipoViaje'] ||
+      viaje['tipoViaje'];
+    const { tipoViaje, tagTipoViaje } = resolverTipoViaje(rawTipo);
+    const destino = (viaje.Destino || '').toString().trim() || `${tipoViaje} #${index + 1}`;
     const fecha = (viaje.Fecha || '').toString().trim() || 'Próximamente';
     const precio = (viaje.Precio || '').toString().trim() || 'Consultar';
     const incluye = (viaje.Incluye || '').toString().trim() || 'Coordinación y traslados';
@@ -156,8 +208,10 @@ export async function obtenerFullDaysActivos(): Promise<FullDayViaje[]> {
       incluye,
       incluyeLista: parsearIncluye(incluye),
       estado: viaje.Estado || 'Activo',
+      tipoViaje,
+      tagTipoViaje,
       imagenUrl,
-      whatsappUrl: generarWhatsAppUrl(destino, fecha, precio),
+      whatsappUrl: generarWhatsAppUrl(destino, fecha, precio, tipoViaje),
     };
   });
 }

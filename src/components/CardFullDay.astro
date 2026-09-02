@@ -6,6 +6,7 @@ interface Props {
 }
 
 const { viaje } = Astro.props;
+const tagDisplay = viaje.tagTipoViaje || (viaje.tipoViaje === 'Viaje' ? '🚌 Viaje' : '🚌 Full Day');
 ---
 
 <article class="card card-fullday">
@@ -13,12 +14,12 @@ const { viaje } = Astro.props;
   <div class="card-img-wrapper">
     <img 
       src={viaje.imagenUrl} 
-      alt={`Escapada Full Day a ${viaje.destino}`} 
+      alt={`${viaje.tipoViaje || 'Viaje'} a ${viaje.destino}`} 
       loading="lazy" 
       referrerpolicy="no-referrer"
       onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80';"
     />
-    <span class="card-tag">🚌 Escapada Full Day</span>
+    <span class="card-tag">{tagDisplay}</span>
     <span class="card-badge-status">🟢 Cupos Disponibles</span>
   </div>
 
@@ -40,7 +41,7 @@ const { viaje } = Astro.props;
 
     <!-- Servicios incluidos -->
     <div class="fullday-includes-box">
-      <div class="includes-title">✨ Incluye en el día:</div>
+      <div class="includes-title">✨ Incluye:</div>
       <div class="includes-tags">
         {viaje.incluyeLista && viaje.incluyeLista.length > 0 ? (
           viaje.incluyeLista.map((item) => (
