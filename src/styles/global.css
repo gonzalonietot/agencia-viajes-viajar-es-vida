@@ -201,13 +201,18 @@ header {
     height: 16px;
   }
   .nav-cta {
-    padding: 7px 12px !important;
-    font-size: 0.85rem;
-    border-radius: 16px !important;
+    width: 36px;
+    height: 36px;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    justify-content: center;
+  }
+  .nav-cta span {
+    display: none;
   }
   .nav-cta svg {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
   }
 }
 
