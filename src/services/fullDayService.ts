@@ -78,10 +78,17 @@ export function resolverTipoViaje(tipoRaw?: string): { tipoViaje: string; tagTip
     };
   }
 
-  if (lower === 'full day' || lower === 'fullday' || lower.includes('full')) {
+  if (
+    lower.includes('paseo') ||
+    lower.includes('día') ||
+    lower.includes('dia') ||
+    lower.includes('full') ||
+    lower === 'full day' ||
+    lower === 'fullday'
+  ) {
     return {
-      tipoViaje: 'Full Day',
-      tagTipoViaje: '🚌 Full Day',
+      tipoViaje: 'Paseo por el día',
+      tagTipoViaje: '🚌 Paseo por el día',
     };
   }
 
@@ -94,8 +101,8 @@ export function resolverTipoViaje(tipoRaw?: string): { tipoViaje: string; tagTip
 
   // Valor por defecto si no viene especificado
   return {
-    tipoViaje: 'Full Day',
-    tagTipoViaje: '🚌 Full Day',
+    tipoViaje: 'Paseo por el día',
+    tagTipoViaje: '🚌 Paseo por el día',
   };
 }
 
@@ -103,7 +110,7 @@ export function resolverTipoViaje(tipoRaw?: string): { tipoViaje: string; tagTip
  * Genera el enlace directo a WhatsApp con mensaje de reserva prellenado
  */
 export function generarWhatsAppUrl(destino: string, fecha?: string, precio?: string, tipoViaje?: string): string {
-  const tipoLabel = tipoViaje?.toLowerCase().includes('viaje') ? 'el viaje a' : 'el Full Day a';
+  const tipoLabel = tipoViaje?.toLowerCase().includes('viaje') ? 'el viaje a' : 'el Paseo por el día a';
   const texto = `¡Hola! Quiero consultar por ${tipoLabel} "${destino}"${fecha ? ` para la fecha ${fecha}` : ''}${precio ? ` (${precio})` : ''}. ¿Tienen disponibilidad?`;
   return `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(texto)}`;
 }
