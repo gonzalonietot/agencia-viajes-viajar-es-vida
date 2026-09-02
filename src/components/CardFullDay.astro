@@ -6,7 +6,7 @@ interface Props {
 }
 
 const { viaje } = Astro.props;
-const tagDisplay = viaje.tagTipoViaje || (viaje.tipoViaje === 'Viaje' ? '🚌 Viaje' : '🚌 Paseo por el día');
+const tagDisplay = viaje.tagTipoViaje || (viaje.tipoViaje === 'Viaje' ? '🚌 Viaje' : '🚌 Full Day');
 ---
 
 <article class="card card-fullday">

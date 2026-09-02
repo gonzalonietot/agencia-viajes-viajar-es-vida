@@ -16,7 +16,7 @@ const { initialViajes = [] } = Astro.props;
     ))
   ) : (
     <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: white; border-radius: var(--radius); border: 1px solid var(--border);">
-      <p style="font-size: 1.1rem; color: var(--text-muted);">No hay salidas activas de paseos por el día en este momento. ¡Consultanos por WhatsApp para próximas fechas!</p>
+      <p style="font-size: 1.1rem; color: var(--text-muted);">No hay salidas Full Day activas en este momento. ¡Consultanos por WhatsApp para próximas fechas!</p>
     </div>
   )}
 </div>
@@ -49,20 +49,13 @@ const { initialViajes = [] } = Astro.props;
     if (lower === 'viaje' || lower.includes('viaje')) {
       return { tipoViaje: 'Viaje', tagTipoViaje: '🚌 Viaje' };
     }
-    if (
-      lower.includes('paseo') ||
-      lower.includes('día') ||
-      lower.includes('dia') ||
-      lower.includes('full') ||
-      lower === 'full day' ||
-      lower === 'fullday'
-    ) {
-      return { tipoViaje: 'Paseo por el día', tagTipoViaje: '🚌 Paseo por el día' };
+    if (lower === 'full day' || lower === 'fullday' || lower.includes('full')) {
+      return { tipoViaje: 'Full Day', tagTipoViaje: '🚌 Full Day' };
     }
     if (raw.length > 0) {
       return { tipoViaje: raw, tagTipoViaje: `🚌 ${raw}` };
     }
-    return { tipoViaje: 'Paseo por el día', tagTipoViaje: '🚌 Paseo por el día' };
+    return { tipoViaje: 'Full Day', tagTipoViaje: '🚌 Full Day' };
   }
 
   function parsearIncluye(incluye: string | undefined): string[] {
@@ -133,7 +126,7 @@ const { initialViajes = [] } = Astro.props;
       if (activos.length === 0) {
         grid.innerHTML = `
           <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: white; border-radius: var(--radius); border: 1px solid var(--border);">
-            <p style="font-size: 1.1rem; color: var(--text-muted);">No hay salidas activas de paseos por el día en este momento. ¡Consultanos por WhatsApp para próximas fechas!</p>
+            <p style="font-size: 1.1rem; color: var(--text-muted);">No hay salidas Full Day activas en este momento. ¡Consultanos por WhatsApp para próximas fechas!</p>
           </div>
         `;
         return;
