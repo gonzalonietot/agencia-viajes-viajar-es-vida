@@ -1,4 +1,4 @@
-# ✈️ Viajar es Vida — Sitio Web Oficial
+# Viajar es Vida — Sitio Web Oficial
 
 Sitio web oficial y catálogo dinámico de la agencia de viajes **Viajar es Vida** (Legajo Nº 21232 • Habilitados como Agencia de Viajes). Plataforma moderna de alta velocidad construida con **Astro 4**, con carga en tiempo real desde **Google Sheets** e integración directa con reservas vía **WhatsApp**.
 
@@ -88,4 +88,5 @@ npm run preview
 
 - **Agencia:** Viajar es Vida (Legajo Nº 21232)
 - **WhatsApp:** [+54 9 3516 64-0325](https://wa.me/5493516640325)
+- **Instagram:** [@viajaresvidacba](https://www.instagram.com/viajaresvidacba/)
 - **Desarrollador:** [@gonzalonietot](https://github.com/gonzalonietot)

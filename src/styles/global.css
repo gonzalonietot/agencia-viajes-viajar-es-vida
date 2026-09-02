@@ -71,15 +71,15 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 74px;
+  height: 90px;
   gap: 20px;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 1.5rem;
+  gap: 14px;
+  font-size: 1.7rem;
   font-weight: 800;
   color: var(--terracota);
   white-space: nowrap;
@@ -88,6 +88,18 @@ header {
 
 .logo span {
   color: var(--dorado);
+}
+
+.header-logo-img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.logo:hover .header-logo-img {
+  transform: scale(1.06);
 }
 
 .nav-links {
@@ -167,10 +179,15 @@ header {
 
 @media (max-width: 640px) {
   .nav-bar {
-    height: 56px;
+    height: 72px;
   }
   .logo {
-    font-size: 1.15rem;
+    font-size: 1.3rem;
+    gap: 10px;
+  }
+  .header-logo-img {
+    width: 52px;
+    height: 52px;
   }
   .nav-actions {
     gap: 8px;
@@ -785,14 +802,30 @@ footer {
   }
 }
 
+.footer-brand-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.footer-logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
 .footer-brand h3 {
-  color: #ffffff;
-  font-size: 1.45rem;
+  color: var(--terracota);
+  font-size: 1.5rem;
   font-weight: 800;
-  margin-bottom: 12px;
+  margin-bottom: 0;
   display: flex;
   align-items: center;
   gap: 8px;
+  letter-spacing: -0.5px;
 }
 
 .footer-brand h3 span {
